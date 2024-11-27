@@ -5,14 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Project</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h1>Books</h1>
-    <div>
-        <div>
-            <h3>My Library</h3>
-            <table>
+    <div class="container">
+        <div class="header">
+            <h1>My Library</h1>
+            <div class="add-book">
+                <button id="showDialog">Add new book</button>
+            </div>
+        </div>
+        <div class="library">
+            <!-- <div class="book">
+                    <div class="title-author">
+                        <img src="book-solid.svg" alt="book icon" width="28px" height="28px">
+                        <h3 id="title"></h3>
+                        <div class="author-pages">
+                            <h4 id="author"></h4> - <div id="pages"></div>
+                        </div>
+                    </div>
+                    <div class="read-button">
+                        <button id="read-book">Read</button>
+                        <input type="checkbox" id="horns" name="read" />
+                        <label for="horns">Read</label>
+                    </div>
+                    <div class="remove-button">
+                        <button id="remove-book">Remove</button>
+                    </div>
+                </div> -->
+        </div>
+        <!-- <table>
                 <tr>
                     <th>Author</th>
                     <th>Title</th>
@@ -25,8 +48,7 @@
                 <ul>
                 </ul>
             </div>
-            <div id="test"></div>
-        </div>
+            <div id="test"></div> -->
         <dialog id="dialog">
             <form>
                 <div>
@@ -49,11 +71,7 @@
                 </div>
             </form>
         </dialog>
-        <div>
-            <button id="showDialog">Add new book</button>
-        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 
