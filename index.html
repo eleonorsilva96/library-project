@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Project</title>
+</head>
+
+<body>
+    <h1>Books</h1>
+    <div>
+        <div>
+            <h3>My Library</h3>
+            <table>
+                <tr>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Number Pages</th>
+                    <th>Remove</th>
+                    <th>Read</th>
+                </tr>
+            </table>
+            <div id="read-list">
+                <ul>
+                </ul>
+            </div>
+            <div id="test"></div>
+        </div>
+        <dialog id="dialog">
+            <form>
+                <div>
+                    <label for="name">Author</label>
+                    <input type="text" id="author" name="author" size="10" />
+
+                </div>
+                <div>
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" size="30" />
+
+                </div>
+                <div>
+                    <label for="pages">Pages</label>
+                    <input type="text" id="pages" name="pages" size="10" />
+                </div>
+                <div>
+                    <button formmethod="dialog">Cancel</button>
+                    <button id="confirmBtn">Confirm</button>
+                </div>
+            </form>
+        </dialog>
+        <div>
+            <button id="showDialog">Add new book</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
