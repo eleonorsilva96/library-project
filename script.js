@@ -10,23 +10,6 @@ const readList = document.querySelector("#read-list > ul");
 //my library
 // const book = document.querySelector(".library > .book");
 const library = document.querySelector(".library");
-const book = `
-            <div class="book">
-                    <div class="title-author">
-                        <i class="fa-solid fa-book"></i>
-                        <h3 id="title"></h3>
-                        <div class="author-pages">
-                            <h4 id="author"></h4> - <div id="pages"></div>
-                        </div>
-                    </div>
-                    <div class="read-button">
-                        <button id="read-book">Read</button>
-                    </div>
-                    <div class="remove-button">
-                        <button id="remove-book">Remove</button>
-                    </div>
-                </div>
-`;
 const bookTitle = document.querySelector("#title");
 const bookAuthor = document.querySelector("#author");
 const bookPages = document.querySelector("#pages");
@@ -44,17 +27,17 @@ confirmBtn.addEventListener("click", (e) => {
   let pagesValue = document.querySelector("input#pages").value;
 
   if (authorValue && titleValue && pagesValue) {
-    verifyDuplicatedBooks(authorValue, titleValue);
 
-    if (isMatching === true) {
+    let duplicatedBook = verifyDuplicatedBooks(authorValue, titleValue);
+
+    if (!duplicatedBook) {
       //if has found a matching input value dont create a new object book
-      isMatching = false;
-    } else {
-      //create a new object instance and push it to the library array
       const newBook = new Book(authorValue, titleValue, pagesValue);
       myLibrary.push(newBook);
 
-      showNewBook(newBook);
+      showBookFromLibrary();
+    } else {
+      duplicatedBook = false;
     }
   }
 
@@ -121,7 +104,6 @@ function showBookFromLibrary() {
                 </div>
                 `;
   });
-
   library.innerHTML = bookContent;
 
   // const tableCellButton = document.createElement("td");
@@ -174,13 +156,14 @@ function removeBook(id) {
 }
 
 function verifyDuplicatedBooks(newAuthor, newTitle) {
-  myLibrary.forEach((book) => {
-    if (newAuthor === book.author && newTitle === book.title) {
-      isMatching = true;
-
-      console.log("matching!");
-    }
-  });
+  //check for duplicated books, if the condition passes the test returns true 
+  return myLibrary.some((book) => newAuthor === book.author && newTitle === book.title);
+  // myLibrary.forEach((book) => {
+  //   return newAuthor === book.author && newTitle === book.title ? true : false;
+  //     // isMatching = true;
+  //   //     return true;
+  //   //   // console.log("matching!");
+  //   // }
 }
 
 addBookToLibrary("Sara Gruen", "Water for Elephants", "300");
