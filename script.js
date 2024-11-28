@@ -21,135 +21,163 @@ showDialog.addEventListener("click", () => {
 
 confirmBtn.addEventListener("click", (e) => {
   e.preventDefault(); //it will not submit the form
-
+  
   let authorValue = document.querySelector("input#author").value;
   let titleValue = document.querySelector("input#title").value;
   let pagesValue = document.querySelector("input#pages").value;
-
+  
   if (authorValue && titleValue && pagesValue) {
-
+    
     let duplicatedBook = verifyDuplicatedBooks(authorValue, titleValue);
-
+    
     if (!duplicatedBook) {
       //if has found a matching input value dont create a new object book
       const newBook = new Book(authorValue, titleValue, pagesValue);
       myLibrary.push(newBook);
-
+      
       showBookFromLibrary();
     } else {
       duplicatedBook = false;
     }
   }
-
+  
   dialog.close();
 });
-
-// object constructor
-class Book {
-  constructor(author, title, numberPages) {
-    this.id = Math.random().toString(36).substring(2, 9);
-    this.author = author;
-    this.title = title;
-    this.numberPages = numberPages;
+//event delegation triggered when any element inside library is clicked
+library.addEventListener("click", (e) => {
+  //checks if the clicked element is the remove button
+  if(e.target.matches(".remove-button > button")){
+    //finds the nearest .book element of the clicked button 
+    const book = e.target.closest(".book");
+    const idBook = book.getAttribute("data-id");
+    if(idBook) removeBook(idBook);
   }
 
-  changeStatus(checkbox) {
-    if (checkbox.checked) {
-      // this.status = status;
-      const readItem = document.createElement("li");
-      readList.appendChild(readItem);
+  if(e.target.matches(".read-button > button")){
+    //finds the nearest .book element of the clicked button 
+    changeStatus();
+  }
+});
 
-      readItem.textContent = `Read ${this.author}`;
-    } else {
-      // this.status = false;
-      const readItem = document.querySelector("#read-list > ul > li");
+// removeBook.addEventListener("click", () => {
+  //   const idBook = document.querySelector
+  // });
+  
+  // object constructor
+  class Book {
+    constructor(author, title, numberPages) {
+      this.id = Math.random().toString(36).substring(2, 9);
+      this.author = author;
+      this.title = title;
+      this.numberPages = numberPages;
+    } 
+  }
 
-      readItem.remove();
+  function changeStatus() {
+
+    console.log("read it!");
+
+    //adicionar uma tag de lido em cima do icon
+    
+      // if (checkbox.checked) {
+      //   // this.status = status;
+      //   const readItem = document.createElement("li");
+      //   readList.appendChild(readItem);
+        
+      //   readItem.textContent = `Read ${this.author}`;
+      // } else {
+      //   // this.status = false;
+      //   const readItem = document.querySelector("#read-list > ul > li");
+        
+      //   readItem.remove();
+      // }
     }
+
+  function addBookToLibrary(author, title, numberPages) {
+    const objectBook = new Book(author, title, numberPages);
+    // const bookId = objectBook.id;
+    
+    myLibrary.push(objectBook);
+    
+    //create a table row and pass the index of the added object book
+    showBookFromLibrary();
   }
-}
+  
+  function showBookFromLibrary() {
+    //  book.setAttribute("data-id", id);
+    let bookContent = "";
+    
+    myLibrary.forEach((book) => {
+      bookContent += `
+      <div class="book" data-id="${book.id}">
+      <div class="title-author">
+      <img src="book-solid.svg" alt="book icon" width="28px" height="28px">
+      <h3 id="title">${book.title}</h3>
+      <div class="author-pages">
+      <h4 id="author">${book.author}</h4> ‧ <div class="pages" id="pages">${book.numberPages} pages</div>
+      </div>
+      </div>
+      <div class="book-buttons">
+      <div class="read-button">
+      <button>Read</button>
+      </div>
+      <div class="remove-button">
+      <button>Remove</button>
+      </div>
+      </div>
+      </div>
+      `;
+    });
+    library.innerHTML = bookContent;
+  
+    // const books = document.querySelectorAll(".book");
+    // books.forEach((book) => {
+    //   const idBook = book.getAttribute("data-id");
+    //   const removeBookButton = book.querySelector("#remove-book");
 
-function addBookToLibrary(author, title, numberPages) {
-  const objectBook = new Book(author, title, numberPages);
-  // const bookId = objectBook.id;
-
-  myLibrary.push(objectBook);
-
-  //create a table row and pass the index of the added object book
-  showBookFromLibrary();
-}
-
-function showBookFromLibrary() {
-  //  book.setAttribute("data-id", id);
-  let bookContent = "";
-
-  myLibrary.forEach((book) => {
-    bookContent += `
-            <div class="book" data-id="${book.id}">
-                    <div class="title-author">
-                        <img src="book-solid.svg" alt="book icon" width="28px" height="28px">
-                        <h3 id="title">${book.title}</h3>
-                        <div class="author-pages">
-                            <h4 id="author">${book.author}</h4> ‧ <div class="pages" id="pages">${book.numberPages} pages</div>
-                        </div>
-                    </div>
-                      <div class="book-buttons">
-                      <div class="read-button">
-                          <button id="read-book">Read</button>
-                      </div>
-                      <div class="remove-button">
-                          <button id="remove-book">Remove</button>
-                      </div>
-                    </div>
-                </div>
-                `;
-  });
-  library.innerHTML = bookContent;
-
+    //   removeBookButton.addEventListener("click", () => removeBook(idBook));
+    // })
+    
+  
   // const tableCellButton = document.createElement("td");
   // const removeButton = document.createElement("button");
   // tableCellButton.appendChild(removeButton);
-
+  
   // const tableCellCheck = document.createElement("td");
   // const statusCheck = document.createElement("input");
   // statusCheck.setAttribute("type", "checkbox");
   // tableCellCheck.appendChild(statusCheck);
-
+  
   //the values method converts the book objects values in an array ["author", "title", "numberPages"]
   // Object.values(book).forEach((detail) => {
-  //     const tableCell = document.createElement("td");
-  //     tableCell.textContent = detail;
-
-  //     tableRow.appendChild(tableCell);
-  // });
-
-  // tableRow.appendChild(tableCellButton);
-  // tableRow.appendChild(tableCellCheck);
-
-  // table.appendChild(tableRow);
-
-  //add event handlers
-  // removeButton.addEventListener("click", () => removeBook(id));
-  // statusCheck.addEventListener("change", () => book.changeStatus(statusCheck));
-}
-
-function removeBook(id) {
+    //     const tableCell = document.createElement("td");
+    //     tableCell.textContent = detail;
+    
+    //     tableRow.appendChild(tableCell);
+    // });
+    
+    // tableRow.appendChild(tableCellButton);
+    // tableRow.appendChild(tableCellCheck);
+    
+    // table.appendChild(tableRow);
+    
+    //add event handlers
+    // statusCheck.addEventListener("change", () => book.changeStatus(statusCheck));
+  }
+  
+  function removeBook(id) {
   //find the position of the book in the array with the book object's id
-  console.log(myLibrary);
-  console.log(id);
+  console.log("remove book " + id);
+  // console.log(id);
   const index = myLibrary.findIndex((book) => book.id === id);
   console.log(index);
+  
   //verify if its not null
   if (index !== -1) {
-    console.log("remove");
     myLibrary.splice(index, 1);
-    const tableRow = document.querySelector(`tr[data-id='${id}'`);
-
-    if (tableRow) {
-      tableRow.remove();
-    } else {
-      console.error("book row not found");
-    }
+    const book = document.querySelector(`.book[data-id='${id}'`);
+    
+    book.remove();
   } else {
     console.error("book not found");
   }
